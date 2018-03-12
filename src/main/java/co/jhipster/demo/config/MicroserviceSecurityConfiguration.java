@@ -35,13 +35,15 @@ public class MicroserviceSecurityConfiguration extends ResourceServerConfigurerA
         this.corsFilter = corsFilter;
     }
 
+    // 关闭 CSRF，方便 POSTMAN 测试，正常生产环境需打开
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
             .csrf()
-            .ignoringAntMatchers("/h2-console/**")
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        .and()
+            .disable()
+//            .ignoringAntMatchers("/h2-console/**")
+//            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//        .and()
             .addFilterBefore(corsFilter, CsrfFilter.class)
             .headers()
             .frameOptions()
